@@ -8,7 +8,6 @@ try {
     $monitor->checkAllAssets();
     echo "Uptime check completed successfully.\n";
     
-    // Clean up old uptime_checks
     try {
         $stmt = $pdo->prepare("DELETE FROM uptime_checks WHERE checked_at < DATE_SUB(NOW(), INTERVAL 30 DAY)");
         $stmt->execute();
@@ -18,7 +17,6 @@ try {
         echo "Note: Could not clean uptime_checks table (may not exist)\n";
     }
     
-    // Clean up old page_errors
     try {
         $stmt = $pdo->prepare("DELETE FROM page_errors WHERE occurred_at < DATE_SUB(NOW(), INTERVAL 30 DAY)");
         $stmt->execute();

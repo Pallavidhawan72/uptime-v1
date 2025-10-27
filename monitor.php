@@ -135,8 +135,7 @@ class UptimeMonitor {
     }
     
     public function getAssetUptime($asset_id, $hours = 24) {
-        // Ensure hours is a positive integer
-        $hours = max(1, min(8760, (int)$hours)); // Limit between 1 hour and 1 year
+        $hours = max(1, min(8760, (int)$hours));
         
         try {
             $stmt = $this->pdo->prepare("SELECT COUNT(*) as total_checks, SUM(CASE WHEN status = 'up' THEN 1 ELSE 0 END) as up_checks, AVG(response_time) as avg_response_time FROM checks WHERE asset_id = ? AND checked_at >= DATE_SUB(NOW(), INTERVAL ? HOUR)");
@@ -170,8 +169,7 @@ class UptimeMonitor {
     }
     
     public function getRecentChecks($asset_id, $limit = 50) {
-        // Ensure limit is a positive integer
-        $limit = max(1, min(1000, (int)$limit)); // Limit between 1 and 1000
+        $limit = max(1, min(1000, (int)$limit));
         
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM checks WHERE asset_id = ? ORDER BY checked_at DESC LIMIT ?");
@@ -189,8 +187,7 @@ class UptimeMonitor {
             return [];
         }
 
-        // Ensure hours is a positive integer
-        $hours = max(1, min(8760, (int)$hours)); // Limit between 1 hour and 1 year
+        $hours = max(1, min(8760, (int)$hours));
 
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM page_errors WHERE asset_id = ? AND occurred_at >= DATE_SUB(NOW(), INTERVAL ? HOUR) ORDER BY occurred_at DESC");

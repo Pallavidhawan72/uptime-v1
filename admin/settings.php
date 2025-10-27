@@ -29,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $deleted_checks = $stmt->rowCount();
         } catch (PDOException $e) {
-            // Table may not exist or query failed
         }
         
         try {
@@ -37,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute();
             $deleted_errors = $stmt->rowCount();
         } catch (PDOException $e) {
-            // Table may not exist or query failed
         }
         
         $message = "Cleanup completed: Removed $deleted_checks old checks and $deleted_errors old errors.";

@@ -14,7 +14,6 @@ try {
         $deleted_checks = $stmt->rowCount();
     } catch (PDOException $e) {
         $deleted_checks = 0;
-        echo "Note: Could not clean uptime_checks table (may not exist)\n";
     }
     
     try {
@@ -23,7 +22,6 @@ try {
         $deleted_errors = $stmt->rowCount();
     } catch (PDOException $e) {
         $deleted_errors = 0;
-        echo "Note: Could not clean page_errors table (may not exist)\n";
     }
     
     if ($deleted_checks > 0 || $deleted_errors > 0) {

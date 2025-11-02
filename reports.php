@@ -31,17 +31,6 @@ $response_time = isset($check['response_time']) ? htmlspecialchars(round($check[
 $http_status = htmlspecialchars($check['http_code'] ?? ($check['status_code'] ?? 'N/A'));
 $uptime_pct = htmlspecialchars($uptime_24h['uptime_percentage'] ?? 0);
 
-$screenshot_src = 'assets/lego.png';
-try {
-    $ss = $pdo->prepare("SELECT file_path FROM screenshots WHERE asset_id = ? ORDER BY taken_at DESC LIMIT 1");
-    $ss->execute([$asset_id]);
-    $r = $ss->fetch(PDO::FETCH_ASSOC);
-    if ($r && !empty($r['file_path']) && file_exists(__DIR__ . '/' . $r['file_path'])) {
-        $screenshot_src = $r['file_path'];
-    }
-} catch (Exception $e) {
-}
-
 $last_downtime = 'N/A';
 try {
     $recent = $monitor->getRecentChecks($asset_id, 500);
@@ -90,7 +79,6 @@ include 'includes/header.php';
     .metric-card { border:2px solid #ff6b4a; border-radius:12px; padding:18px; text-align:center; background:white; }
     .metric-card .label { color:#666; }
     .metric-card .value { color:#ff6b4a; font-size:32px; font-weight:800; }
-    .screenshot-box { border:2px solid #ff6b4a; border-radius:12px; padding:12px; background:white; max-width:420px; }
     .chart-container { 
         background: white; 
         border: 2px solid #ff6b4a; 
@@ -122,15 +110,8 @@ include 'includes/header.php';
 
 <div class="w3-container w3-margin-top">
     <div class="w3-row-padding">
-        <div class="w3-col l6 m12 s12">
-            <h3>Screenshot</h3>
-            <div class="screenshot-box">
-                <img src="<?= htmlspecialchars($screenshot_src) ?>" alt="screenshot" style="max-width:100%; border-radius:6px; display:block;">
-            </div>
-        </div>
-
-        <div class="w3-col l6 m12 s12">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+        <div class="w3-col l12 m12 s12">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:18px;">
                 <div class="metric-card">
                     <div class="label">Response Time</div>
                     <div class="value"><?= htmlspecialchars($response_time) ?></div>
@@ -217,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: true,
@@ -273,7 +254,7 @@ new Chart(ctx2.getContext('2d'), {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: true,

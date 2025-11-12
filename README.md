@@ -18,12 +18,12 @@ A simple uptime monitoring system for BrickMMO services built with PHP and MySQL
 4. Set up cron job: `*/5 * * * * cd /path/to/uptime-v1 && php cron.php`
 5. Access the application in your browser
 
-## Default Login
+## Default Admin Login
 
 - Username: `admin`
-- Password: `admin123`
+- Password: `password`
 
-⚠️ Change the password after first login!
+⚠️ PLease Change the password accordingly
 
 ## Tech Stack
 
